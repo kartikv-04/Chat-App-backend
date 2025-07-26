@@ -9,6 +9,7 @@ import authRoutes from './routes/auth.route.js';
 import messageRoutes from './routes/message.route.js';
 import { connectDB } from './lib/db.js';
 import { initSocket } from './lib/socket.js';
+import { seedDatabase } from './seeds/user.seed.js';
 
 dotenv.config();
 
@@ -33,4 +34,5 @@ initSocket(server);
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
     connectDB();
+    seedDatabase();
 });

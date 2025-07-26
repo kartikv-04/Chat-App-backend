@@ -51,9 +51,14 @@ const rawUsers = [
   },
 ];
 
-const seedDatabase = async () => {
+export const seedDatabase = async () => {
   try {
     await connectDB();
+
+    const existingUserCount = await User.countDocuments();
+    if (existingUserCount > 0) {
+      return;
+    }
 
     const usersWithHashedPasswords = await Promise.all(
       rawUsers.map(async (user) => {
@@ -64,8 +69,7 @@ const seedDatabase = async () => {
 
     await User.insertMany(usersWithHashedPasswords);
   } catch (error) {
-    console.error(" Error seeding database:", error);
-  }
+      logger.error("Seeding failed", { error });
+    }
 };
 
-seedDatabase();
