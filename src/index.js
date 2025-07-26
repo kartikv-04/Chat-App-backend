@@ -27,20 +27,13 @@ app.use(
 );
 
 
-app.use(express.json({ limit: '5mb' }));
-app.use(express.urlencoded({ extended: true, limit: '5mb' }));
+app.use(express.json());
+
 
 
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
 
-
-app.use((err, req, res, next) => {
-  if (err.status === 413) {
-    return res.status(413).json({ message: 'File too large. Max 5MB allowed.' });
-  }
-  next(err);
-});
 
 initSocket(server);
 
